@@ -1,0 +1,28 @@
+<h2>Employees</h2>
+<div class="row g-3">
+  <% for (let emp of employees) { %>
+
+    <div class="col-4">
+      <div class="card p-1">
+        <h5 class="card-title"><%= emp.first_name %> <%= emp.last_name %></h5>
+        <div class="card-text">
+          <div><%= emp.title %></div>
+          <div>Hired on: <%= emp.date_hired.toISOString().split('T')[0] %></div>
+          <div>
+            <a class="btn btn-outline-primary" href="<%= '/employees/' + emp.employee_id + '/edit' %>">Edit</a>
+            <a class="btn btn-outline-danger" href="<%= '/employees/' + emp.employee_id + '/delete' %>">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <% } %>
+
+<%- include('../components/pagination', {
+  pageName: 'employees',
+  currentPage: currentPage,
+  lastPage: lastPage
+}) %>
+
+</div>

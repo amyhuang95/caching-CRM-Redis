@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <%- include("../../templates/head.ejs") %>
+  <body>
+
+    <%- include("../../templates/navBar.ejs") %>
+
+    <div class="container">
+      <h1>Edit Employee</h1>
+
+
+      <% if (msg) { %>
+        <div class="alert alert-primary">
+          <%= msg %>
+        </div>
+      <% } %>
+
+      <%- include("../../components/formEditEmployee.ejs", { emp }) %>
+
+      <% if (emp.department === 'Sales') { %>
+        <%- include("../../components/employeeCustomerList.ejs", { customers }) %>
+      <% } %>
+
+
+    </div>
+
+    <%- include("../../templates/footer.ejs") %>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "name": "enhanced_crm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Amy Huang",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "mongodb": "^6.10.0",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.12.0",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.10.0",
+    "prettier": "^3.3.3",
+    "nodemon": "3.1.7"
+  }
+}

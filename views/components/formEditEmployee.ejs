@@ -1,0 +1,140 @@
+<h2>Employee</h2>
+
+<form action=" <%= '/employees/' + emp.employee_id + '/edit' %>" method="POST">
+  <div class="form-grid">
+    <div>
+      <label class="form-label">
+        Employee ID:
+        <input
+          class="form-control"
+          type="text"
+          name="employee_id"
+          value="<%= emp.employee_id %>"
+          disabled
+        />
+      </label>
+    </div>
+  
+    <div>
+      <label class="form-label">
+        First Name:
+        <input
+          class="form-control"
+          type="text"
+          name="first_name"
+          value="<%= emp.first_name %>"
+          required
+        />
+      </label>
+    </div>
+  
+    <div>
+      <label class="form-label">
+        Last Name:
+        <input
+          class="form-control"
+          type="text"
+          name="last_name"
+          value="<%= emp.last_name %>"
+          required
+        />
+      </label>
+    </div>
+  
+    <div>
+      <label class="form-label">
+        Phone:
+        <input
+          class="form-control"
+          type="text"
+          name="phone"
+          value="<%= emp.phone %>"
+          required
+        />
+      </label>
+    </div>
+  
+    <div>
+      <label class="form-label">
+        Email:
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          value="<%= emp.email %>"
+          required
+        />
+      </label>
+    </div>
+
+    <div></div>
+
+    <div>
+      <label class="form-label">
+        Title:
+        <input
+          class="form-control"
+          type="text"
+          name="title"
+          value="<%= emp.title %>"
+          required
+        />
+      </label>
+    </div>
+  
+    <div>
+      <label class="form-label">
+        Department:
+        <select class="form-control" name="department">
+          <option value="Sales" <%= emp.department === 'Sales' ? 'selected' : '' %>>Sales</option>
+          <option value="Engineering" <%= emp.department === 'Engineering' ? 'selected' : '' %>>Engineering</option>
+          <option value="Compliance" <%= emp.department === 'Compliance' ? 'selected' : '' %>>Compliance</option>
+        </select>
+      </label>
+    </div>
+  
+    <div>
+      <label class="form-label">
+        Business Unit:
+        <select class="form-control" name="business_unit">
+          <option value="Cloud" <%= emp.business_unit === 'Cloud' ? 'selected' : '' %>>Cloud</option>
+          <option value="Automobile" <%= emp.business_unit === 'Automobile' ? 'selected' : '' %>>Automobile</option>
+          <option value="AI" <%= emp.business_unit === 'AI' ? 'selected' : '' %>>AI</option>
+          <option value="Functional" <%= emp.business_unit === 'Functional' ? 'selected' : '' %>>Functional</option>
+        </select>
+      </label>
+    </div>
+
+  
+    <div>
+      <label class="form-label">
+        Hired On:
+        <input
+          class="form-control"
+          type="date"
+          name="date_hired"
+          value="<%= emp.date_hired.toISOString().split('T')[0] %>"
+        />
+      </label>
+    </div>
+  
+    <div>
+      <label class="form-label">
+        Status:
+        <select class="form-control" name="status">
+          <option value="Active" <%= emp.status === 'Active' ? 'selected' : '' %>>Active</option>
+          <option value="Inactive" <%= emp.status === 'Inactive' ? 'selected' : '' %>>Inactive</option>
+        </select>
+      </label>
+    </div>
+
+    <div></div>
+
+    <div class="btn-div">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a class="btn btn-danger" href="<%= '/employees/' + emp.employee_id + '/delete' %>">Delete</a>
+    </div>
+
+  </div>
+
+</form>

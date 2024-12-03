@@ -1,0 +1,101 @@
+<h2>Add a Company</h2>
+<form action="/addCustomer" method="POST">
+
+  <div>
+    <label class="form-label">
+      Legal Entity Name:
+      <input class="form-control" type="text" name="legal_entity_name" required />
+    </label>
+
+    <label class="form-label">
+      Account Manager:
+      <select class="form-control" name="owner_id" required>
+        <option value="" disabled selected>Select</option>
+        <% accountManagers.forEach(function(mgr) { %>
+        <option value="<%= mgr.employee_id %>"><%= mgr.first_name %> <%= mgr.last_name %></option>
+        <% }); %>
+      </select>
+    </label>
+
+    <label class="form-label">
+      Industry:
+      <input class="form-control" type="text" name="industry" required/>
+    </label>
+
+    <label class="form-label">
+      Type:
+      <select class="form-control" name="type" required>
+        <option value="" disabled selected>Select</option>
+        <option value="Direct Customer">Direct Customer</option>
+        <option value="ODM">ODM</option>
+        <option value="OEM">OEM</option>
+        <option value="Distributor">Distributor</option>
+        <option value="Ecosystem Partner">Ecosystem Partner</option>
+      </select>
+    </label>
+  </div>
+
+  
+    <label class="form-label">
+      Parent Account:
+      <select class="form-control" name="parent_id">
+        <option value="" selected></option>
+        <% parentAccounts.forEach(function(parent) { %>
+        <option value="<%= parent.customer_id %>" %>><%= parent.legal_entity_name %></option>
+        <% }); %>
+      </select>
+    </label>
+  
+  
+    <div class="address-item">
+      <h5>Address (Headquarters)</h5>
+      <input class="form-control" type="hidden" name="addresses[0][type]" value="Headquarters"/>
+      <label class="form-label">
+        Line 1:
+        <input class="form-control" type="text" name="addresses[0][line_1]" required/>
+      </label>
+      <label class="form-label">
+        Line 2:
+        <input class="form-control" type="text" name="addresses[0][line_2]"/>
+      </label>
+      <label class="form-label">
+        City:
+        <input class="form-control" type="text" name="addresses[0][city]" required/>
+      </label>
+      <label class="form-label">
+        State:
+        <input class="form-control" type="text" name="addresses[0][state]" required/>
+      </label>
+      <label class="form-label">
+        Country:
+        <input class="form-control" type="text" name="addresses[0][country]" required/>
+      </label>
+    </div>
+
+  <div class="contact-item">
+  <h5>Contact Person</h5>
+      <label class="form-label">
+        First Name:
+        <input class="form-control" type="text" name="contact[first_name]" required/>
+      </label>
+      <label class="form-label">
+        Last Name:
+        <input class="form-control" type="text" name="contact[last_name]" required/>
+      </label>
+    <label class="form-label">
+      Phone:
+      <input class="form-control" type="text" name="contact[phone]" required/>
+    </label>
+    <label class="form-label">
+      Email:
+      <input class="form-control" type="email" name="contact[email]" required/>
+    </label>
+
+    <label class="form-label">
+      Title:
+      <input class="form-control" type="text" name="contact[title]" required/>
+    </label>
+</div>
+
+  <button class="btn btn-primary" type="submit">Create</button>
+</form>

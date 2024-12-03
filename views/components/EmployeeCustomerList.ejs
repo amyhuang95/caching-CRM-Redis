@@ -1,0 +1,12 @@
+<h2>Customers:</h2>
+<% if (customers.length > 0) { %>
+<ul>
+  <% for (let c of customers) { %>
+  <li>
+    <a href="<%= '/customers/' + c.customer_id + '/edit'  %>"><%= c.legal_entity_name %></a> - <%= c.status %>
+  </li>
+  <% } %>
+</ul>
+<% } else { %>
+<p>No customers</p>
+<% } %>

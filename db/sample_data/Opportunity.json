@@ -1,0 +1,164 @@
+[
+  {
+    "opportunity_id": 12345,
+    "customer_id": 67890,
+    "name": "Ace Project",
+    "start_date": { "$date": "2023-11-08T00:00:00Z" },
+    "close_date": null,
+    "stage": "Propose",
+    "est_revenue": 100000,
+    "date_created": { "$date": "2023-01-10T00:00:00Z" },
+    "owner": {
+      "owner_id": 54321,
+      "first_name": "Jimin",
+      "last_name": "Seo",
+      "business_unit": "Cloud",
+      "title": "Sales Manager"
+    },
+    "quotes": [
+      {
+        "quote_id": 98765,
+        "name": "Acme Quote 1",
+        "content": "Detailed proposal for project scope and pricing.",
+        "status": "Pending",
+        "date_created": { "$date": "2023-05-10T00:00:00Z" },
+        "date_approved": null,
+        "bill_to": null,
+        "ship_to": null
+      },
+      {
+        "quote_id": 43210,
+        "name": "Acme Quote 2",
+        "content": "Revised proposal with updated pricing and timeline.",
+        "status": "Approved",
+        "date_created": { "$date": "2023-05-10T00:00:00Z" },
+        "date_approved": { "$date": "2024-05-10T00:00:00Z" },
+        "bill_to": {
+          "bill_to_id": 76543,
+          "legal_entity_name": "Acme Corporation",
+          "address": {
+            "line_1": "123 Main St",
+            "line_2": "Suite 400",
+            "city": "Anytown",
+            "state": "CA",
+            "country": "USA"
+          }
+        },
+        "ship_to": {
+          "ship_to_id": 23456,
+          "legal_entity_name": "Acme Manufacturing Co. Ltd.",
+          "address": {
+            "line_1": "456 Elm St",
+            "line_2": "",
+            "city": "Othertown",
+            "state": "NY",
+            "country": "USA"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "opportunity_id": 12346,
+    "customer_id": 67891,
+    "name": "Beta Project",
+    "start_date": { "$date": "2021-05-10T00:00:00Z" },
+    "close_date": null,
+    "stage": "Develop",
+    "est_revenue": 150000,
+    "date_created": { "$date": "2021-05-10T00:00:00Z" },
+    "owner": {
+      "owner_id": 54322,
+      "first_name": "Alex",
+      "last_name": "Kim",
+      "business_unit": "Cloud",
+      "title": "Sales Executive"
+    },
+    "quotes": []
+  },
+  {
+    "opportunity_id": 12347,
+    "customer_id": 67892,
+    "name": "Gamma Project",
+    "start_date": { "$date": "2021-05-10T00:00:00Z" },
+    "close_date": null,
+    "stage": "Create",
+    "est_revenue": 200000,
+    "date_created": { "$date": "2022-05-16T00:00:00Z" },
+    "owner": {
+      "owner_id": 54323,
+      "first_name": "Taylor",
+      "last_name": "Lee",
+      "business_unit": "Cloud",
+      "title": "Sales Representative"
+    },
+    "quotes": []
+  },
+  {
+    "opportunity_id": 12348,
+    "customer_id": 67893,
+    "name": "Delta Project",
+    "start_date": { "$date": "2021-12-10T00:00:00Z" },
+    "close_date": null,
+    "stage": "Close-Won",
+    "est_revenue": 250000,
+    "date_created": { "$date": "2021-05-10T00:00:00Z" },
+    "owner": {
+      "owner_id": 54324,
+      "first_name": "Jordan",
+      "last_name": "Park",
+      "business_unit": "Cloud",
+      "title": "Sales Director"
+    },
+    "quotes": [
+      {
+        "quote_id": 98766,
+        "name": "Delta Quote 1",
+        "content": "Initial proposal for project scope and pricing.",
+        "status": "Approved",
+        "date_created": { "$date": "2021-05-10T00:00:00Z" },
+        "date_approved": { "$date": "2021-05-10T00:00:00Z" },
+        "bill_to": {
+          "bill_to_id": 76544,
+          "legal_entity_name": "Delta Corporation",
+          "address": {
+            "line_1": "789 Oak St",
+            "line_2": "Suite 500",
+            "city": "Sometown",
+            "state": "TX",
+            "country": "USA"
+          }
+        },
+        "ship_to": {
+          "ship_to_id": 23457,
+          "legal_entity_name": "Delta Manufacturing Co. Ltd.",
+          "address": {
+            "line_1": "101 Pine St",
+            "line_2": "",
+            "city": "Newtown",
+            "state": "FL",
+            "country": "USA"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "opportunity_id": 12349,
+    "customer_id": 67894,
+    "name": "Epsilon Project",
+    "start_date": { "$date": "2021-05-10T00:00:00Z" },
+    "close_date": null,
+    "stage": "Close-Lost",
+    "est_revenue": 300000,
+    "date_created": { "$date": "2021-05-10T00:00:00Z" },
+    "owner": {
+      "owner_id": 54325,
+      "first_name": "Morgan",
+      "last_name": "Choi",
+      "business_unit": "Cloud",
+      "title": "Sales Associate"
+    },
+    "quotes": []
+  }
+]

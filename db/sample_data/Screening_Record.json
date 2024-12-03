@@ -1,0 +1,65 @@
+[
+  {
+    "screening_record_id": 12345,
+    "issue_type": "Finance",
+    "status": "Pending Review",
+    "source": "News",
+    "pending_action": "Customer to fill out due diligence form",
+    "customer": {
+      "customer_id": 67890,
+      "name": "ABC Corporation",
+      "country": "USA"
+    },
+    "version": {
+      "version_id": 0,
+      "version": 0,
+      "timestamp": {
+        "$date": "2023-11-08T12:34:56Z"
+      },
+      "modified_by_id": 54321,
+      "modified_by_name": "Jane Smith"
+    }
+  },
+  {
+    "screening_record_id": 12346,
+    "issue_type": "Sanction",
+    "status": "Approved",
+    "source": "Internal Report",
+    "pending_action": "None",
+    "customer": {
+      "customer_id": 67891,
+      "name": "XYZ Ltd.",
+      "country": "Canada"
+    },
+    "version": {
+      "version_id": 1,
+      "version": 1,
+      "timestamp": {
+        "$date": "2023-11-09T09:21:45Z"
+      },
+      "modified_by_id": 54322,
+      "modified_by_name": "John Doe"
+    }
+  },
+  {
+    "screening_record_id": 12347,
+    "issue_type": "Legal",
+    "status": "Not Approved",
+    "source": "Government Database",
+    "pending_action": "Customer to provide legal documents",
+    "customer": {
+      "customer_id": 67892,
+      "name": "LMN Inc.",
+      "country": "UK"
+    },
+    "version": {
+      "version_id": 2,
+      "version": 1,
+      "timestamp": {
+        "$date": "2023-11-10T15:47:30Z"
+      },
+      "modified_by_id": 54323,
+      "modified_by_name": "Alice Johnson"
+    }
+  }
+]
