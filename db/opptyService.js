@@ -26,3 +26,19 @@ async function saveOpptyToCache(customer_id) {}
 
 // Function to delete opportunities of a customer from Redis
 async function deleteOpptyFromCache(customer_id) {}
+
+// Function to add an opportunity for a customer
+async function addOpptyToMongo(customer_id) {}
+
+// Function to view an oppty
+async function getOpptyFromMongo(oppty_id) {}
+
+// Function to update an oppty
+async function updateOpptyFromMongo(oppty_id) {}
+
+// Function to delete an oppty
+async function deleteOpptyFromMongo(oppty_id) {}
+
+async function main() {}
+
+main();
