@@ -1,10 +1,9 @@
 {
-  "name": "enhanced_crm",
+  "name": "enhanced_crm_redis",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "node index.js"
   },
   "type": "module",
   "keywords": [],
@@ -12,11 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "cookie-parser": "^1.4.7",
-    "ejs": "^3.1.10",
-    "express": "^4.21.1",
     "mongodb": "^6.10.0",
-    "morgan": "^1.10.0",
     "redis": "^4.7.0"
   },
   "devDependencies": {
@@ -24,8 +19,6 @@
     "eslint": "^9.12.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "globals": "^15.10.0",
-    "nodemon": "3.1.7",
     "prettier": "^3.3.3"
   }
 }
