@@ -2,16 +2,6 @@ import { connectToMongo } from './dbConnector.js';
 import { Utils } from './utils.js';
 import { connectToRedis } from './dbConnector.js';
 
-// Function to reset cache in Redis
-async function cleanCache() {
-  const client = await connectToRedis();
-
-  const exists = await client.flushAll();
-  console.log('🚿 Cache cleaned', exists);
-
-  await client.quit();
-}
-
 // Function to get opportunities of a customer from Redis.
 // Return five recently added or viewed opportunities.
 async function getOpptyFromCache(customer_id) {
@@ -59,6 +49,16 @@ async function deleteOpptyFromCache(customer_id, oppty_id) {
   } finally {
     await client.quit();
   }
+}
+
+// Function to reset cache in Redis
+async function cleanCache() {
+  const client = await connectToRedis();
+
+  const exists = await client.flushAll();
+  console.log('🚿 Cache cleaned', exists);
+
+  await client.quit();
 }
 
 // Function to add an opportunity for a customer
