@@ -1,14 +1,12 @@
 import { connectToMongo } from './dbConnector.js';
-import { CustomerService } from './customerService.js';
-import { connectToRedis } from './dbConnector.js';
 /**
  * Class to interact with customers data
  */
-export class CustomerService {
+export class Utils {
   // Get a list of customer Ids
   async getCustomerIds() {
     console.log('[Mongo] getCustomerIds');
-    const { client, db } = await getDBConnection();
+    const { client, db } = await connectToMongo();
     const collection = db.collection('Customer');
 
     try {
@@ -17,8 +15,8 @@ export class CustomerService {
         .find({}, { customer_id: 1, _id: 0 })
         .sort({ customer_id: -1 })
         .toArray();
-
-      return customers;
+      const customerIds = customers.map((customer) => customer.customer_id);
+      return customerIds;
     } catch (err) {
       console.log('Error getting customer ids: ', err);
     } finally {
@@ -29,7 +27,7 @@ export class CustomerService {
   // Get a list of oppty ids of a customer
   async getOpptyIds(customer_id) {
     console.log('[Mongo] getOpptyIds', customer_id);
-    const { client, db } = await getDBConnection();
+    const { client, db } = await connectToMongo();
     const collection = db.collection('Opportunity');
 
     try {
@@ -39,7 +37,8 @@ export class CustomerService {
         .sort({ opportunity_id: 1 })
         .toArray();
 
-      return opportunities;
+      const opptyIds = opportunities.map((oppty) => oppty.opportunity_id);
+      return opptyIds;
     } catch (err) {
       console.log('Error getting opportunity ids: ', err);
     } finally {
@@ -105,10 +104,11 @@ export class CustomerService {
     async function generateOpptyId() {
       const prevOppty = await collection
         .find({}, { opportunity_id: 1 })
-        .sort({ customer_id: -1 })
+        .sort({ opportunity_id: -1 })
         .limit(1)
         .toArray();
-      const prev_oppty_id = prevOppty.length > 0 ? prevOppty[0].customer_id : 0;
+      const prev_oppty_id =
+        prevOppty.length > 0 ? prevOppty[0].opportunity_id : 0;
       return prev_oppty_id + 1;
     }
 
@@ -135,84 +135,6 @@ export class CustomerService {
       return opportunity;
     } catch {
       console.log('Error generating auto-increment oppty id');
-    } finally {
-      await client.close();
-    }
-  }
-
-  /**
-   * Function to add an customer to the database
-   * @param {object} customer customer object to add to the database
-   * @returns {Promise<Object>} the result of the insert operation
-   */
-  async addCustomer(customer) {
-    console.log('[DB] addCustomer', customer);
-    const { client, db } = await getDBConnection();
-    const collection = db.collection('Customer');
-
-    try {
-      // Auto increment customer and contact id from last added customer
-      const prevCustomer = await collection
-        .find({}, { customer_id: 1, contact_id: 1 })
-        .sort({ customer_id: -1 })
-        .limit(1)
-        .toArray();
-
-      // Get ids of previous customer and contact
-      const prevCustId =
-        prevCustomer.length > 0 ? prevCustomer[0].customer_id : 0;
-      const prevContId =
-        prevCustomer.length > 0 ? prevCustomer[0].contact.contact_id : 0;
-
-      // increment the ids
-      customer.customer_id = prevCustId + 1;
-      customer.contact.contact_id = prevContId + 1;
-
-      const result = await collection.insertOne(customer);
-      return result;
-    } catch (err) {
-      console.log('Error adding customer: ', err);
-    } finally {
-      await client.close();
-    }
-  }
-
-  /**
-   * Function to delete customer by id from the database
-   * @param {number} customer_id id of the customer to delete
-   * @returns {Promise<Object>} the result of the delete operation
-   */
-  async deleteCustomerById(customer_id) {
-    console.log('[DB] deleteCustomerById', customer_id);
-    const { client, db } = await getDBConnection();
-    const collection = db.collection('Customer');
-
-    try {
-      const result = await collection.deleteOne({ customer_id });
-      return result;
-    } catch (error) {
-      console.error('Error deleting customer by id:', error);
-      throw error;
-    } finally {
-      await client.close();
-    }
-  }
-
-  /**
-   * Function to get customer by id from the database
-   * @param {number} customer_id the customer id to search for.
-   * @returns {Promise<Object>} an customer object
-   */
-  async getCustomerById(customer_id) {
-    console.log('[DB] getCustomerById', customer_id);
-    const { client, db } = await getDBConnection();
-    const collection = db.collection('Customer');
-    try {
-      const result = await collection.findOne({ customer_id });
-      return result;
-    } catch (error) {
-      console.error('Error fetching customer by id:', error);
-      throw error;
     } finally {
       await client.close();
     }

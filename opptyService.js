@@ -1,5 +1,5 @@
 import { connectToMongo } from './dbConnector.js';
-import { CustomerService } from './customerService.js';
+import { Utils } from './utils.js';
 import { connectToRedis } from './dbConnector.js';
 
 // Function to reset cache in Redis
@@ -20,7 +20,7 @@ async function getOpptyFromCache(customer_id) {
   const key = 'recentOppty:' + customer_id;
 
   try {
-    opptys = await client.zRange(key, 0, 4, { REV: true });
+    const opptys = await client.zRange(key, 0, 4, { REV: true });
     return opptys;
   } catch {
     console.log('Error getting oppty from Redis', customer_id);
@@ -36,8 +36,7 @@ async function saveOpptyToCache(customer_id, oppty_id) {
   const key = 'recentOppty:' + customer_id;
 
   try {
-    await client.zAdd(key, [{ value: oppty_id, score: Date.now() }]);
-    await client.zRemRangeByRank(key, 0, -6);
+    await client.zAdd(key, [{ value: oppty_id.toString(), score: Date.now() }]);
     return;
   } catch {
     console.log('Error saving oppty to Redis', oppty_id);
@@ -53,10 +52,10 @@ async function deleteOpptyFromCache(customer_id, oppty_id) {
   const key = 'recentOppty:' + customer_id;
 
   try {
-    await client.zRem(key, oppty_id);
+    await client.zRem(key, oppty_id.toString());
     return;
   } catch {
-    console.log('Error saving oppty to Redis', oppty_id);
+    console.log('Error deleting oppty from Redis', oppty_id);
   } finally {
     await client.quit();
   }
@@ -64,7 +63,7 @@ async function deleteOpptyFromCache(customer_id, oppty_id) {
 
 // Function to add an opportunity for a customer
 async function addOpptyToMongo(oppty) {
-  console.log('[Mongo] addOpptyToMongo');
+  console.log('[Mongo] addOpptyToMongo', oppty.opportunity_id);
   const { client, db } = await connectToMongo();
   const collection = db.collection('Opportunity');
 
@@ -90,7 +89,7 @@ async function getOpptyFromMongo(oppty_id) {
   const collection = db.collection('Opportunity');
 
   try {
-    const oppty = await collection.findOne({ oppty_id });
+    const oppty = await collection.findOne({ opportunity_id: oppty_id });
 
     // Save the oppty id to cache for the customer
     await saveOpptyToCache(oppty.customer_id, oppty.opportunity_id);
@@ -112,9 +111,13 @@ async function updateOpptyFromMongo(oppty) {
 
   try {
     const result = await collection.updateOne(
-      { customer_id: customer_id },
-      { $set: customer }
+      { opportunity_id: oppty.opportunity_id },
+      { $set: oppty }
     );
+
+    // Save to cache
+    await saveOpptyToCache(oppty.customer_id, oppty.opportunity_id);
+
     return result;
   } catch (error) {
     console.error('Error updating customer by id:', error);
@@ -131,15 +134,19 @@ async function deleteOpptyFromMongo(oppty_id) {
   const collection = db.collection('Opportunity');
 
   try {
-    const customer = await collection.findOne(oppty_id);
-    const customer_id = customer.customer_id;
-    const result = await collection.deleteOne({ oppty_id });
+    const oppty = await collection.findOne({
+      opportunity_id: oppty_id,
+    });
+    const customer_id = oppty.customer_id;
+    const result = await collection.deleteOne({
+      opportunity_id: oppty_id.toString(),
+    });
 
     // Delete the oppty id from cache
     await deleteOpptyFromCache(customer_id, oppty_id);
     return result;
   } catch (error) {
-    console.error('Error deleting customer by id:', error);
+    console.error('Error deleting opportunity by id:', error);
     throw error;
   } finally {
     await client.close();
@@ -148,34 +155,48 @@ async function deleteOpptyFromMongo(oppty_id) {
 
 async function main() {
   await cleanCache();
-
-  const customerService = new CustomerService();
+  const util = new Utils();
 
   // Create 6 more opptys for each customer in the database, and add to Mongo
-  const customer_ids = customerService.getCustomerIds(); // ids: 67892, 67894, 67890, 67891, 67893
-  for (let id in customer_ids) {
-    console.log('Add oppty for customer ', id);
+  console.log('🔅 Generate 6 opportunities for each customer.');
+  const customer_ids = await util.getCustomerIds();
+  for (const id of customer_ids) {
+    console.log('\nAdd oppty for customer ', id);
     for (let i = 0; i < 6; i++) {
-      const oppty = await customerService.generateRandomOppty(id);
+      const oppty = await util.generateRandomOppty(id);
       await addOpptyToMongo(oppty);
     }
   }
 
   // Get recent oppty of the second customer
-  const result1 = await getOpptyFromCache(customer_ids[1]);
-  console.log(`Recent opptys of customer ${customer_ids[1]}: ${result1}`);
+  const result1_1 = await getOpptyFromCache(customer_ids[0]);
+  const result1_2 = await getOpptyFromCache(customer_ids[1]);
+  console.log(`➡️ Recent opptys of customer ${customer_ids[0]}: ${result1_1}`);
+  console.log(
+    `➡️ Recent opptys of customer ${customer_ids[1]}: ${result1_2}\n`
+  );
 
   // View first two opptys of the second customer
-  console.log(`View first two opptys of customer ${customer_ids[1]}`);
-  const opptyIds = await customerService.getOpptyIds(customer_ids[1]);
-  await getOpptyFromMongo(opptyIds[0]);
-  await getOpptyFromCache(opptyIds[1]);
-  console.log(`Recent opptys of customer ${customer_ids[1]}: ${result1}`);
+  console.log(`🔅 View first two opptys of customer: ${customer_ids[1]}`);
+  const opptyIds = await util.getOpptyIds(customer_ids[1]);
+  const oppty1 = await getOpptyFromMongo(opptyIds[0]);
+  const oppty2 = await getOpptyFromMongo(opptyIds[1]);
+  const result2 = await getOpptyFromCache(customer_ids[1]);
+  console.log(`➡️ Recent opptys of customer ${customer_ids[1]}: ${result2}\n`);
+
+  // Update the first oppty of the second customer
+  console.log(`🔅 Modified first opportunity for customer: ${customer_ids[1]}`);
+  oppty1.stage = 'NA';
+  await updateOpptyFromMongo(oppty1);
+  const result3 = await getOpptyFromCache(customer_ids[1]);
+  console.log(`➡️ Recent opptys of customer ${customer_ids[1]}: ${result3}\n`);
 
   // Delete opptys of the second customer
+  console.log(`🔅 Delete 2 opportunities for customer: ${customer_ids[1]}`);
   await deleteOpptyFromMongo(opptyIds[0]);
-  await deleteOpptyFromCache(opptyIds[1]);
-  console.log(`Recent opptys of customer ${customer_ids[1]}: ${result1}`);
+  await deleteOpptyFromMongo(opptyIds[1]);
+  const result4 = await getOpptyFromCache(customer_ids[1]);
+  console.log(`➡️ Recent opptys of customer ${customer_ids[1]}: ${result4}\n`);
 }
 
 main();
