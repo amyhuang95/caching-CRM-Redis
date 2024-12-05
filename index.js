@@ -1,6 +1,6 @@
 import { connectToMongo } from './dbConnector.js';
-import { Utils } from './utils.js';
 import { connectToRedis } from './dbConnector.js';
+import { Utils } from './utils.js';
 
 // Function to get opportunities of a customer from Redis.
 // Return five recently added or viewed opportunities.
