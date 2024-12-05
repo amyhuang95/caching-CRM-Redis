@@ -156,9 +156,10 @@ async function deleteOpptyFromMongo(oppty_id) {
 async function main() {
   await cleanCache();
   const util = new Utils();
+  await util.loadSampleCustomers();
 
   // Create 6 more opptys for each customer in the database, and add to Mongo
-  console.log('🔅 Generate 6 opportunities for each customer.');
+  console.log('\n🔅 Generate 6 opportunities for each customer.');
   const customer_ids = await util.getCustomerIds();
   for (const id of customer_ids) {
     console.log('\nAdd oppty for customer ', id);
@@ -172,27 +173,25 @@ async function main() {
   const result1_1 = await getOpptyFromCache(customer_ids[0]);
   const result1_2 = await getOpptyFromCache(customer_ids[1]);
   console.log(`➡️ Recent opptys of customer ${customer_ids[0]}: ${result1_1}`);
-  console.log(
-    `➡️ Recent opptys of customer ${customer_ids[1]}: ${result1_2}\n`
-  );
+  console.log(`➡️ Recent opptys of customer ${customer_ids[1]}: ${result1_2}`);
 
   // View first two opptys of the second customer
-  console.log(`🔅 View first two opptys of customer: ${customer_ids[1]}`);
+  console.log(`\n🔅 View first two opptys of customer: ${customer_ids[1]}`);
   const opptyIds = await util.getOpptyIds(customer_ids[1]);
   const oppty1 = await getOpptyFromMongo(opptyIds[0]);
   const oppty2 = await getOpptyFromMongo(opptyIds[1]);
   const result2 = await getOpptyFromCache(customer_ids[1]);
-  console.log(`➡️ Recent opptys of customer ${customer_ids[1]}: ${result2}\n`);
+  console.log(`➡️ Recent opptys of customer ${customer_ids[1]}: ${result2}`);
 
   // Update the first oppty of the second customer
-  console.log(`🔅 Modified first opportunity for customer: ${customer_ids[1]}`);
+  console.log(`\n🔅 Modified first oppty for customer: ${customer_ids[1]}`);
   oppty1.stage = 'NA';
   await updateOpptyFromMongo(oppty1);
   const result3 = await getOpptyFromCache(customer_ids[1]);
   console.log(`➡️ Recent opptys of customer ${customer_ids[1]}: ${result3}\n`);
 
   // Delete opptys of the second customer
-  console.log(`🔅 Delete 2 opportunities for customer: ${customer_ids[1]}`);
+  console.log(`\n🔅 Delete 2 opptys for customer: ${customer_ids[1]}`);
   await deleteOpptyFromMongo(opptyIds[0]);
   await deleteOpptyFromMongo(opptyIds[1]);
   const result4 = await getOpptyFromCache(customer_ids[1]);

@@ -3,6 +3,100 @@ import { connectToMongo } from './dbConnector.js';
  * Class to interact with customers data
  */
 export class Utils {
+  // Load sample customers to MongoDB
+  async loadSampleCustomers() {
+    console.log('[Mongo] loadSampleCustomers');
+    const { client, db } = await connectToMongo();
+    const collection = db.collection('Customer');
+
+    try {
+      const customers = [
+        {
+          customer_id: 12358,
+          legal_entity_name: 'Gen AI Tech',
+          industry: 'AI',
+          type: 'Direct Customer',
+          status: 'Pending Review',
+          date_created: {
+            $date: '2024-10-27T00:00:00.000Z',
+          },
+          address: [
+            {
+              type: 'Headquarters',
+              line_1: '456 St',
+              line_2: '',
+              city: 'Oakland',
+              state: 'CA',
+              country: 'United States',
+            },
+          ],
+          contact: {
+            contact_id: 2,
+            first_name: 'Jess',
+            last_name: 'Lam',
+            phone: '12345678',
+            email: 'jess.l@example.com',
+            title: 'Project Manager',
+          },
+          parent: {
+            parent_id: 12349,
+            name: 'Epsilon Tech',
+            country: 'USA',
+            type: 'Direct Customer',
+          },
+          owner: {
+            owner_id: 2,
+            first_name: 'Bob',
+            last_name: 'Johnson',
+            business_unit: 'AI',
+            title: 'Sales Director',
+          },
+        },
+        {
+          customer_id: 12359,
+          legal_entity_name: 'G Doc Innovation',
+          industry: 'AI',
+          type: 'Ecosystem Partner',
+          status: 'Pending Review',
+          date_created: {
+            $date: '2024-10-30T00:00:00.000Z',
+          },
+          address: [
+            {
+              type: 'Headquarters',
+              line_1: '987 St',
+              line_2: '',
+              city: 'Redwood City',
+              state: 'CA',
+              country: 'USA',
+            },
+          ],
+          contact: {
+            contact_id: 3,
+            first_name: 'Sam',
+            last_name: 'White',
+            phone: '345678123',
+            email: 'sam.w@example.com',
+            title: 'Manager',
+          },
+          owner: {
+            owner_id: 1,
+            first_name: 'Alice',
+            last_name: 'Smith',
+            business_unit: 'Cloud',
+            title: 'Sales Manager',
+          },
+        },
+      ];
+      // Get customer ids and turn into array
+      await collection.insertMany(customers);
+    } catch (err) {
+      console.log('Error generating sample customers', err);
+    } finally {
+      await client.close();
+    }
+  }
+
   // Get a list of customer Ids
   async getCustomerIds() {
     console.log('[Mongo] getCustomerIds');
