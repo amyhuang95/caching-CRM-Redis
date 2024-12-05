@@ -55,14 +55,12 @@ When an opportunity `oppty_id` is added for a customer `customer_id`:
 
 ```Redis
 ZADD recentOppty:<customer_id> <timestamp> <oppty_id>
-ZREMRANGEBYRANK recentOppty:<customer_id> 0 -6
 ```
 
 When opportunity `oppty_id` is viewed/updated for customer `customer_id`:
 
 ```Redis
 ZADD recentOppty:<customer_id> <timestamp> <oppty_id>
-ZREMRANGEBYRANK recentOppty:<customer_id> 0 -6
 ```
 
 When an opportunity `oppty_id` is deleted for customer `customer_id`:
