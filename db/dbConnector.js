@@ -1,18 +1,25 @@
 import { MongoClient } from 'mongodb';
+import { createClient } from 'redis';
 
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri);
 const dbName = 'crm';
 
-async function getDBConnection() {
+export async function connectToMongo() {
   try {
     await client.connect();
     const db = client.db(dbName);
     return { client, db };
   } catch (error) {
-    console.error('Failed to connect to the CRM database:', error);
+    console.error('Mongo connection error:', error);
     throw error;
   }
 }
 
-export { getDBConnection };
+export async function connectToRedis() {
+  const client = createClient();
+  client.on('error', (err) => console.log('Redis Client Error', err));
+
+  await client.connect();
+  return client;
+}
