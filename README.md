@@ -1,6 +1,6 @@
 # Redis Integration for Customer Relationship Management System
 
-This project demonstrates how Redis can be integrated into the Customer Relationship Management System developed in the [previous enhanced CRM project](https://github.com/amyhuang95/enhanced_CRM_mongoDB) to optimize the speed of retrieving recently added or viewed information. In this project, MongoDB is used as the primary database, and Redis is utilized as an in-memory key-value store for caching purposes.
+This project demonstrates how Redis can be integrated into the Customer Relationship Management System developed in the [previous enhanced CRM project](https://github.com/amyhuang95/enhanced_CRM_mongoDB) to optimize the speed of retrieving recently added or viewed information. In this project, MongoDB is used as the primary database, and Redis is utilized as an in-memory key-value store for caching purposes. ([link to video demonstration](https://northeastern-my.sharepoint.com/:v:/g/personal/huang_hsin_northeastern_edu/EUxC8m0_kQBDuI1q3cF3MFYBW5CfiQ61mzbAeIOGx-T5gA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&email=qiao.yuqi%40northeastern.edu&e=hK9dq5))
 
 ## Conceptual Model (UML Class Diagram)
 
